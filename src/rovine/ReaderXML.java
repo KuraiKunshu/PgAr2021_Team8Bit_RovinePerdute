@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReaderXML {
@@ -19,10 +20,12 @@ public class ReaderXML {
     private Map<Integer, ArrayList<Integer>> mappaArchi;
     private ArrayList<Nodo> elencoNodi;
 
-    public void LeggiXML (String filename) {
-        int h, y, x, idNodoPartenza = 0, idNodoArrivo = 0;
-        String name;
+    public void leggiXML (String filename) {
+        int idNodoPartenza = 0;
         ArrayList<Integer> elencoIdNodiArrivo = null;
+        mappaTerritorio = new HashMap<>();
+        mappaArchi = new HashMap<>();
+        elencoNodi = new ArrayList<>();
         //Questo frammento di codice serve a creare ed istanziare la variabile xmlr di tipo XMLStreamReader,
         //che sarà utilizzata per leggere il file XML
         XMLInputFactory xmlif;
@@ -36,17 +39,17 @@ public class ReaderXML {
                 if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
                     String nomeTag = xmlr.getLocalName();
                     if (nomeTag.equals(CITY)) {
-                        h = Integer.parseInt(xmlr.getAttributeValue(0));
-                        y = Integer.parseInt(xmlr.getAttributeValue(1));
-                        x = Integer.parseInt(xmlr.getAttributeValue(2));
-                        name = xmlr.getAttributeValue(3);
-                        idNodoPartenza = Integer.parseInt(xmlr.getAttributeValue(4));
+                        idNodoPartenza = Integer.parseInt(xmlr.getAttributeValue(0));
+                        String name = xmlr.getAttributeValue(1);
+                        int x = Integer.parseInt(xmlr.getAttributeValue(2));
+                        int y = Integer.parseInt(xmlr.getAttributeValue(3));
+                        int h = Integer.parseInt(xmlr.getAttributeValue(4));
                         elencoNodi.add(new Nodo(name, idNodoPartenza, x, y, h));
                         elencoIdNodiArrivo = new ArrayList<>();
                     }
                     else if (nomeTag.equals(LINK)){
                         while (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                            idNodoArrivo = Integer.parseInt(xmlr.getAttributeValue(0));
+                            int idNodoArrivo = Integer.parseInt(xmlr.getAttributeValue(0));
                             elencoIdNodiArrivo.add(idNodoArrivo);
                             xmlr.next();
                             xmlr.next();
@@ -70,13 +73,25 @@ public class ReaderXML {
             for (int j = 0; j < mappaArchi.get(i).size(); j++){
                 Nodo nodoPartenza = elencoNodi.get(i);
                 Nodo nodoArrivo = elencoNodi.get(mappaArchi.get(i).get(j));
-                double valoreVeicolo1 = nodoPartenza.distanzaNelPianoXY(nodoArrivo);
-                double valoreVeicolo2 = nodoPartenza.differenzaAltezze(nodoArrivo);
+                double consumoVeicolo1 = nodoPartenza.distanzaNelPianoXY(nodoArrivo);
+                double consumoVeicolo2 = nodoPartenza.differenzaAltezze(nodoArrivo);
                 ArrayList<Double> valoriConsumoVeicoli = new ArrayList<>();
-                valoriConsumoVeicoli.add(valoreVeicolo1);
-                valoriConsumoVeicoli.add(valoreVeicolo2);
+                valoriConsumoVeicoli.add(consumoVeicolo1);
+                valoriConsumoVeicoli.add(consumoVeicolo2);
                 mappaTerritorio.put(new Arco(nodoPartenza, nodoArrivo), valoriConsumoVeicoli);
             }
         }
+    }
+
+    public Map<Arco, ArrayList<Double>> getMappaTerritorio() {
+        return mappaTerritorio;
+    }
+
+    public Map<Integer, ArrayList<Integer>> getMappaArchi() {
+        return mappaArchi;
+    }
+
+    public ArrayList<Nodo> getElencoNodi() {
+        return elencoNodi;
     }
 }
