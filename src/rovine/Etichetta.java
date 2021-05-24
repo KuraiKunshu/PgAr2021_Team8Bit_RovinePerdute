@@ -8,4 +8,9 @@ public class Etichetta {
         this.from = from;
         this.distanza = 0;
     }
+
+    public Etichetta() {
+        this.from = null;
+        this.distanza = -1;
+    }
 }
