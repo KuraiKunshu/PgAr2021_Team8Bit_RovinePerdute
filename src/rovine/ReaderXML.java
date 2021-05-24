@@ -16,7 +16,7 @@ public class ReaderXML {
     private static final String LINK = "link";
     private static final String MAPPA_CREATA = "La mappaTerritorio è stata creata con successo";
 
-    private Map<Arco, ArrayList<Double>> mappaTerritorio;
+    private Map<Arco, Double[]> mappaTerritorio;
     private Map<Integer, ArrayList<Integer>> mappaArchi;
     private ArrayList<Nodo> elencoNodi;
 
@@ -80,15 +80,12 @@ public class ReaderXML {
                 Nodo nodoArrivo = elencoNodi.get(mappaArchi.get(i).get(j));
                 double consumoVeicolo1 = nodoPartenza.distanzaNelPianoXY(nodoArrivo);
                 double consumoVeicolo2 = nodoPartenza.differenzaAltezze(nodoArrivo);
-                ArrayList<Double> valoriConsumoVeicoli = new ArrayList<>();
-                valoriConsumoVeicoli.add(consumoVeicolo1);
-                valoriConsumoVeicoli.add(consumoVeicolo2);
-                mappaTerritorio.put(new Arco(nodoPartenza, nodoArrivo), valoriConsumoVeicoli);
+                mappaTerritorio.put(new Arco(nodoPartenza, nodoArrivo), new Double[]{consumoVeicolo1,consumoVeicolo2});
             }
         }
     }
 
-    public Map<Arco, ArrayList<Double>> getMappaTerritorio() {
+    public Map<Arco, Double[]> getMappaTerritorio() {
         return mappaTerritorio;
     }
 

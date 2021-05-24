@@ -15,6 +15,13 @@ public class Nodo {
         this.h = h;
     }
 
+    public Nodo(int id){
+        this.id=id;
+        this.name="";
+        this.x=0;
+        this.y=0;
+        this.h=0;
+    }
     public String getName() {
         return name;
     }

@@ -40,7 +40,7 @@ public class Arco {
 
     @Override
     public String toString(){
-        return this.nodoArrivo.getName()+this.nodoArrivo.getId()+this.nodoPartenza.getName()+this.nodoPartenza.getId();
+        return this.nodoArrivo.getId()+"-"+this.nodoPartenza.getId();
     }
 
     @Override

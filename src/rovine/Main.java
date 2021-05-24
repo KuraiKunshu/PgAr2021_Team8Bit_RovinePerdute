@@ -1,5 +1,8 @@
 package rovine;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
         String firstPath="src/xmlFile/";
@@ -10,11 +13,9 @@ public class Main {
         String mappaFile2000 = "PgAr_Map_2000.xml";
         String mappaFile10000 = "PgAr_Map_10000.xml";
         ReaderXML lettore = new ReaderXML();
-        lettore.leggiXML(firstPath+mappaFile10000);
-        //Test ReaderXML
-        for (int i=0; i<lettore.getElencoNodi().size(); i++){
-            System.out.println(lettore.getElencoNodi().get(i).getName());
-        }
+        lettore.leggiXML(firstPath+mappaFile50);
+        Cartina mappa=new Cartina(lettore.getMappaTerritorio());
+        mappa.generaPercorsoOttimale(lettore.getElencoNodi(), lettore.getMappaArchi());
         System.out.println("Numero citta: "+lettore.getElencoNodi().size());
         System.out.println("Numero di archi in mappaTerritorio: "+lettore.getMappaTerritorio().size());
     }
