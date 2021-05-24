@@ -26,11 +26,11 @@ public class Arco {
     }
 
     public int distanzaXY(){
-        return 0;
+        return (int) Math.sqrt((Math.pow(nodoPartenza.getX()-nodoArrivo.getX(),2))+(Math.pow(nodoPartenza.getY()-nodoArrivo.getY(),2)));
     }
 
     public int distanzaH(){
-        return 0;
+        return Math.abs(nodoPartenza.getH()-nodoArrivo.getH());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Arco {
 
     @Override
     public String toString(){
-        return this.nodoArrivo.getName()+this.nodoPartenza.getName();
+        return this.nodoArrivo.getName()+this.nodoArrivo.getId()+this.nodoPartenza.getName()+this.nodoPartenza.getId();
     }
 
     @Override
