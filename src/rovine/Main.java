@@ -10,7 +10,7 @@ public class Main {
         String mappaFile2000 = "PgAr_Map_2000.xml";
         String mappaFile10000 = "PgAr_Map_10000.xml";
         ReaderXML lettore = new ReaderXML();
-        lettore.leggiXML(firstPath+mappaFile50);
+        lettore.leggiXML(firstPath+mappaFile10000);
         //Test ReaderXML
         for (int i=0; i<lettore.getElencoNodi().size(); i++){
             System.out.println(lettore.getElencoNodi().get(i).getName());

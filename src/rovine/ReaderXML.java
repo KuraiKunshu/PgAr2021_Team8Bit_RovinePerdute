@@ -54,6 +54,11 @@ public class ReaderXML {
                             xmlr.next();
                             xmlr.next();
                         }
+                    }
+                }
+                if (xmlr.getEventType() == XMLStreamConstants.END_ELEMENT){
+                    String nomeTag = xmlr.getLocalName();
+                    if (nomeTag.equals(CITY)){
                         mappaArchi.put(idNodoPartenza, elencoIdNodiArrivo);
                     }
                 }
