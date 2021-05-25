@@ -15,6 +15,13 @@ public class Nodo {
         this.h = h;
     }
 
+    public Nodo(int id){
+        this.id=id;
+        this.name="";
+        this.x=0;
+        this.y=0;
+        this.h=0;
+    }
     public String getName() {
         return name;
     }
@@ -57,11 +64,22 @@ public class Nodo {
 
     @Override
     public boolean equals(Object o){
-        return this.id==o.hashCode();
+        return this.hashCode()==o.hashCode();
     }
 
     @Override
     public int hashCode(){
         return this.id;
+    }
+
+    public double distanzaNelPianoXY(Nodo nodoArrivo){
+        double differenzaX = this.getX() - nodoArrivo.getX();
+        double differenzaY = this.getY() - nodoArrivo.getY();
+        double distanza = Math.sqrt((differenzaX * differenzaX) + (differenzaY * differenzaY));
+        return distanza;
+    }
+
+    public double differenzaAltezze(Nodo nodoArrivo){
+        return Math.abs(this.getH() - nodoArrivo.getH());
     }
 }

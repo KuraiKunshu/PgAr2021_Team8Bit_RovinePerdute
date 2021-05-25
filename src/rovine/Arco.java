@@ -26,21 +26,21 @@ public class Arco {
     }
 
     public int distanzaXY(){
-        return 0;
+        return (int) Math.sqrt((Math.pow(nodoPartenza.getX()-nodoArrivo.getX(),2))+(Math.pow(nodoPartenza.getY()-nodoArrivo.getY(),2)));
     }
 
     public int distanzaH(){
-        return 0;
+        return Math.abs(nodoPartenza.getH()-nodoArrivo.getH());
     }
 
     @Override
     public boolean equals(Object o){
-        return this.toString()==o.toString();
+        return this.toString().equals(o.toString());
     }
 
     @Override
     public String toString(){
-        return this.nodoArrivo.getName()+this.nodoPartenza.getName();
+        return this.nodoPartenza.getId()+"-"+this.nodoArrivo.getId();
     }
 
     @Override
