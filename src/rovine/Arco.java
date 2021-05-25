@@ -35,12 +35,12 @@ public class Arco {
 
     @Override
     public boolean equals(Object o){
-        return this.toString()==o.toString();
+        return this.toString().equals(o.toString());
     }
 
     @Override
     public String toString(){
-        return this.nodoArrivo.getId()+"-"+this.nodoPartenza.getId();
+        return this.nodoPartenza.getId()+"-"+this.nodoArrivo.getId();
     }
 
     @Override

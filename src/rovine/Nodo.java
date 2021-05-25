@@ -64,7 +64,7 @@ public class Nodo {
 
     @Override
     public boolean equals(Object o){
-        return this.id==o.hashCode();
+        return this.hashCode()==o.hashCode();
     }
 
     @Override
