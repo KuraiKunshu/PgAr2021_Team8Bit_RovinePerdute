@@ -5,14 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cartina {
-    Map<Arco,Double[]> mappaTerritorio;
+    public Map<Arco,Double[]> mappaTerritorio;
+    public Map<Nodo, Etichetta> mappaV1=new HashMap<>();
+    public Map<Nodo, Etichetta> mappaV2=new HashMap<>();
 
     public Cartina(Map<Arco, Double[]> mappaTerritorio) {
         this.mappaTerritorio = mappaTerritorio;
     }
     public void generaPercorsoOttimale(ArrayList<Nodo> insiemeNodi, Map<Integer, ArrayList<Integer>> mappaArchi){
-        Map<Nodo, Etichetta> mappaV1=new HashMap<>();
-        Map<Nodo, Etichetta> mappaV2=new HashMap<>();
+        
         for (Nodo n: insiemeNodi) {
             if(n.getId()==0){
                 mappaV1.put(n,new Etichetta(n,0,0));
