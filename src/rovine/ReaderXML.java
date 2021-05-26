@@ -20,6 +20,13 @@ public class ReaderXML {
     private Map<Integer, ArrayList<Integer>> mappaArchi;
     private ArrayList<Nodo> elencoNodi;
 
+    /**
+     * Legge il file .xml che contiene le città e i vari collegamenti tra esse. Inserisce in elencoNodi le città, in
+     * mappaArchi l'id della città di partenza come key e gli id delle città di arrivo rispettive come valori, in
+     * mappaTerritorio un Arco come key e il carburante utilizzato dal veicolo 1 e quello utilizzato dal veicolo 2 come
+     * valori rispettivi.
+     * @param filename file .xml che contiene le città e i vari collegamenti tra esse.
+     */
     public void leggiXML (String filename) {
         int idNodoPartenza = 0;
         ArrayList<Integer> elencoIdNodiArrivo = null;
@@ -36,8 +43,10 @@ public class ReaderXML {
             System.out.println(STRINGAINIZIOLETTURA+filename);
             //Legge il File xml fino a quando ci sono eventi di parsing disponibili
             while (xmlr.hasNext()) {
+                //Se trova un evento di tipo START.ELEMENT controlla il nome del tag dell'elemento corrente
                 if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
                     String nomeTag = xmlr.getLocalName();
+                    //Se il tag è "city" allora crea un nuovo oggetto Nodo e lo aggiunge all'elencoNodi
                     if (nomeTag.equals(CITY)) {
                         idNodoPartenza = Integer.parseInt(xmlr.getAttributeValue(0));
                         String name = xmlr.getAttributeValue(1);
@@ -45,9 +54,12 @@ public class ReaderXML {
                         int y = Integer.parseInt(xmlr.getAttributeValue(3));
                         int h = Integer.parseInt(xmlr.getAttributeValue(4));
                         elencoNodi.add(new Nodo(name, idNodoPartenza, x, y, h));
+                        //Crea un arrayList in cui verranno inseriti gli id delle città a cui si collega
                         elencoIdNodiArrivo = new ArrayList<>();
                     }
+                    //Se il tag è "link" allora inserisci l'id trovato in elencoNodiArrivo
                     else if (nomeTag.equals(LINK)){
+                        //Continua finchè ci sono eventi di tipo START_ELEMENT (che hanno tag "link")
                         while (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
                             int idNodoArrivo = Integer.parseInt(xmlr.getAttributeValue(0));
                             elencoIdNodiArrivo.add(idNodoArrivo);
@@ -56,12 +68,15 @@ public class ReaderXML {
                         }
                     }
                 }
+                //Quando trova un evento di tipo END_ELEMENT
                 if (xmlr.getEventType() == XMLStreamConstants.END_ELEMENT){
                     String nomeTag = xmlr.getLocalName();
+                    //Se il tag è "city" imposta la mappaArchi
                     if (nomeTag.equals(CITY)){
                         mappaArchi.put(idNodoPartenza, elencoIdNodiArrivo);
                     }
                 }
+                //Passa all’evento successivo
                 xmlr.next();
             }
             System.out.println(STRINGAFINELETTURA+filename);
@@ -73,6 +88,12 @@ public class ReaderXML {
         }
     }
 
+    /**
+     * Imposta la mappaTerritorio. Come key imposta i vari Archi presenti, e come valore rispettivo quanto
+     * carburante usa il primo veicolo e quanto il secondo.
+     * @param mappaArchi Map contenente gli id delle città ed i loro collegamenti.
+     * @param elencoNodi ArrayList delle città.
+     */
     public void creaMappaTerritorio(Map<Integer, ArrayList<Integer>> mappaArchi, ArrayList<Nodo> elencoNodi){
         for(int i = 0; i < mappaArchi.size(); i++){
             for (int j = 0; j < mappaArchi.get(i).size(); j++){
@@ -85,14 +106,26 @@ public class ReaderXML {
         }
     }
 
+    /**
+     * Getter di mappaTerritorio.
+     * @return mappaTerritorio
+     */
     public Map<Arco, Double[]> getMappaTerritorio() {
         return mappaTerritorio;
     }
 
+    /**
+     * Getter di mappaArchi.
+     * @return mappaArchi
+     */
     public Map<Integer, ArrayList<Integer>> getMappaArchi() {
         return mappaArchi;
     }
 
+    /**
+     * Getter di elencoNodi.
+     * @return elencoNodi
+     */
     public ArrayList<Nodo> getElencoNodi() {
         return elencoNodi;
     }

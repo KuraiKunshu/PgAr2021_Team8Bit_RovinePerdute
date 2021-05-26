@@ -41,7 +41,7 @@ public class Main {
         ReaderXML lettore = new ReaderXML();
         lettore.leggiXML(path);
         Cartina mappa=new Cartina(lettore.getMappaTerritorio());
-        //generazione del percorso ottimale (la scrittura su file è all'interno del metodo)
+        //generazione del percorso ottimale e scrittura del file di output (all'interno del metodo)
         mappa.generaPercorsoOttimale(lettore.getElencoNodi(), lettore.getMappaArchi());
     }
 
