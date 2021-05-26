@@ -8,7 +8,7 @@ public class Main {
     private final static String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";
     private final static String ERRORE_MINIMO= "Attenzione: e' richiesto un valore maggiore o uguale a ";
     private final static String ERRORE_MASSIMO= "Attenzione: e' richiesto un valore minore o uguale a ";
-    private final static String firstPath="src/xmlFile/";
+    public final static String firstPath="src/xmlFile/";
     private final static String STRINGA_MAPPA= "%d) mappa con %d citta";
     private final static String mappaFile5 = "PgAr_Map_5.xml";
     private final static String mappaFile12 = "PgAr_Map_12.xml";

@@ -9,30 +9,11 @@ public class Arco {
         this.nodoArrivo = nodoArrivo;
     }
 
-    public Nodo getNodoPartenza() {
-        return nodoPartenza;
-    }
-
-    public void setNodoPartenza(Nodo nodoPartenza) {
-        this.nodoPartenza = nodoPartenza;
-    }
-
-    public Nodo getNodoArrivo() {
-        return nodoArrivo;
-    }
-
-    public void setNodoArrivo(Nodo nodoArrivo) {
-        this.nodoArrivo = nodoArrivo;
-    }
-
-    public int distanzaXY(){
-        return (int) Math.sqrt((Math.pow(nodoPartenza.getX()-nodoArrivo.getX(),2))+(Math.pow(nodoPartenza.getY()-nodoArrivo.getY(),2)));
-    }
-
-    public int distanzaH(){
-        return Math.abs(nodoPartenza.getH()-nodoArrivo.getH());
-    }
-
+    /**
+     * confronta 2 oggetti se sono in base la
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o){
         return this.toString().equals(o.toString());

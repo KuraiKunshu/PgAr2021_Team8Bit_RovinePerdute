@@ -1,6 +1,7 @@
 package rovine;
 
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -27,42 +28,42 @@ public class WriterXML {
 	            return;
 	        }
 	        try {
-	        xmlw.writeStartElement(OUTPUT);
-            xmlw.writeStartElement("route");
-            xmlw.writeAttribute("team", "Tonathiu");
-            xmlw.writeAttribute("cost", Integer.toString(carburanteTotV1) );
-            xmlw.writeAttribute("cities",Integer.toString(listaCittaV1.size()) );
-            for (int i = listaCittaV1.size()-1 ; i >= 0; i--) {
-                xmlw.writeStartElement("city");
-                xmlw.writeAttribute("id", Integer.toString(listaCittaV1.get(i).getId()));
-                xmlw.writeAttribute("name",listaCittaV1.get(i).getName());
-                xmlw.writeEndElement();
+                xmlw.writeCharacters("\n");
+                xmlw.writeStartElement(OUTPUT);
+                xmlw.writeCharacters("\n"+"\t");
+                xmlw.writeStartElement("route");
+                xmlw.writeAttribute("team", "Tonathiu");
+                stampaRoute(listaCittaV1, carburanteTotV1, xmlw);
+            } catch (Exception e) { // se trova un errore viene eseguita questa parte
+                return;
             }
-            xmlw.writeEndElement();
-        } catch (Exception e) { // se trova un errore viene eseguita questa parte
-            
-            return;
-        }
-        try {
-        	  xmlw.writeStartElement(OUTPUT);
-              xmlw.writeStartElement("route");
-              xmlw.writeAttribute("team", "Metztli");
-              xmlw.writeAttribute("cost", Integer.toString(carburanteTotV2) );
-              xmlw.writeAttribute("cities",Integer.toString(listaCittaV2.size()) );
-              for (int i = listaCittaV2.size()-1 ; i >= 0; i--) {
-                  xmlw.writeStartElement("city");
-                  xmlw.writeAttribute("id", Integer.toString(listaCittaV2.get(i).getId()));
-                  xmlw.writeAttribute("name",listaCittaV2.get(i).getName());
-                  xmlw.writeEndElement();
-              }
-            xmlw.writeEndElement();
-            xmlw.writeEndElement();
-            xmlw.writeEndDocument();
-            xmlw.flush();
-            xmlw.close();
-        } catch (Exception e) { // se trova un errore viene eseguita questa parte
-           
-            return;
-        }
+            try {
+                xmlw.writeCharacters("\n"+"\t");
+                xmlw.writeStartElement("route");
+                xmlw.writeAttribute("team", "Metztli");
+                stampaRoute(listaCittaV2, carburanteTotV2, xmlw);
+                xmlw.writeCharacters("\n");
+                xmlw.writeEndDocument();
+                xmlw.flush();
+                xmlw.close();
+            } catch (Exception e) { // se trova un errore viene eseguita questa parte
+                return;
+            }
      }
+
+    private void stampaRoute(ArrayList<Nodo> listaCittaV1, int carburanteTotV1, XMLStreamWriter xmlw) throws XMLStreamException {
+        xmlw.writeAttribute("cost", Integer.toString(carburanteTotV1));
+        xmlw.writeAttribute("cities",Integer.toString(listaCittaV1.size()));
+        xmlw.writeCharacters("\n");
+        for (int i = listaCittaV1.size()-1 ; i >= 0; i--) {
+            xmlw.writeCharacters("\t"+"\t");
+            xmlw.writeStartElement("city");
+            xmlw.writeAttribute("id", Integer.toString(listaCittaV1.get(i).getId()));
+            xmlw.writeAttribute("name",listaCittaV1.get(i).getName());
+            xmlw.writeEndElement();
+            xmlw.writeCharacters("\n");
+        }
+        xmlw.writeCharacters("\t");
+        xmlw.writeEndElement();
+    }
 }
