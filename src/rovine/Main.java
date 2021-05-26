@@ -13,7 +13,7 @@ public class Main {
         String mappaFile2000 = "PgAr_Map_2000.xml";
         String mappaFile10000 = "PgAr_Map_10000.xml";
         ReaderXML lettore = new ReaderXML();
-        lettore.leggiXML(firstPath+mappaFile5);
+        lettore.leggiXML(firstPath+mappaFile50);
         Cartina mappa=new Cartina(lettore.getMappaTerritorio());
         mappa.generaPercorsoOttimale(lettore.getElencoNodi(), lettore.getMappaArchi());
         System.out.println("Numero citta: "+lettore.getElencoNodi().size());
