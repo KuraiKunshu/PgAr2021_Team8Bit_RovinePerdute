@@ -61,17 +61,27 @@ public class Cartina {
         Nodo n = insiemeNodi.get(insiemeNodi.size()-1);
         double carburanteVeicolo1=mappaV1.get(n).getDistanza();
         double carburanteVeicolo2=mappaV2.get(n).getDistanza();
-        while(n.getId()==0){
+        while(n.getId()!=0){
             listaVeicolo1.add(n);
             n=mappaV1.get(n).getFrom();
         }
         listaVeicolo1.add(n);
         n = insiemeNodi.get(insiemeNodi.size()-1);
-        while(n.getId()==0){
+        while(n.getId()!=0){
             listaVeicolo2.add(n);
             n=mappaV2.get(n).getFrom();
         }
         listaVeicolo2.add(n);
+        /*
+        //solo per stampare momentaneamente
+        for(Nodo nodo : listaVeicolo1){
+            System.out.print(nodo.getName()+" - ");
+        }
+        System.out.println();
+        for(Nodo nodo : listaVeicolo2){
+            System.out.print(nodo.getName()+" - ");
+        }
+        System.out.println();*/
         //chimare il writerXML
     }
 
