@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Cartina {
     private static final String NOME_FILE_OUTPUT="Routes.xml";
-    private static final String STRINGA_INIZIO_STAMPA="mappa ottimale generata.\ninizio generazione del file di output";
+    private static final String STRINGA_INIZIO_STAMPA="Mappa ottimale generata.\nInizio generazione del file di output.";
     public Map<Arco,Double[]> mappaTerritorio;
     public Map<Nodo, Etichetta> mappaV1=new HashMap<>();
     public Map<Nodo, Etichetta> mappaV2=new HashMap<>();
@@ -28,7 +28,7 @@ public class Cartina {
      * @param mappaArchi mappa degli archi in base agli id
      */
     public void generaPercorsoOttimale(ArrayList<Nodo> insiemeNodi, Map<Integer, ArrayList<Integer>> mappaArchi){
-        //creo 2 liste dove una conterrà i nodi da controllara (in coda) mentre l'altra conterra i nodi già presenti (in modo da evitare cicli infiniti
+        //creo 2 liste dove una conterrà i nodi da controllare (in coda) mentre l'altra conterra i nodi già presenti (in modo da evitare cicli infiniti)
         LinkedList<Nodo> listaBFS = new LinkedList<>();
         ArrayList<Nodo> listaRiempimento = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class Cartina {
             //assegno ad n1 il primo elemento della lista, rimuovendolo da essa
             Nodo n1 = listaBFS.removeFirst();
             int i = n1.getId();
-            //creò un ciclo per ogni elemento "attacato" al nodo n1, in base alla mappaArchi
+            //creo un ciclo per ogni elemento "attaccato" al nodo n1, in base alla mappaArchi
             for(int j : mappaArchi.get(i)){
                 //creo un nodo di riferimento con id j
                 Nodo n2 = new Nodo(j);
@@ -62,14 +62,14 @@ public class Cartina {
                 }
                 //calcolo la distanza dal nodo d'origine e n2 per il primo veicolo
                 double carburanteDaBaseaN2V1 = mappaTerritorio.get(new Arco(n1,n2))[0]+mappaV1.get(n1).getDistanza();
-                assegnazioneMetodo(mappaV1, i, n1, j, n2, carburanteDaBaseaN2V1, insiemeNodi);
+                assegnazioneMetodo(mappaV1, i, n1, n2, carburanteDaBaseaN2V1, insiemeNodi);
                 //calcolo la distanza dal nodo d'origine e n2 per il secondo veicolo
                 double carburanteDaBaseaN2V2 = mappaTerritorio.get(new Arco(n1,n2))[1]+mappaV2.get(n1).getDistanza();
-                assegnazioneMetodo(mappaV2, i, n1, j, n2, carburanteDaBaseaN2V2, insiemeNodi);
+                assegnazioneMetodo(mappaV2, i, n1, n2, carburanteDaBaseaN2V2, insiemeNodi);
             }
         }
 
-        //creo le liste che conterrannò il percorso delle 2 macchine
+        //creo le liste che conterranno il percorso dei 2 veicoli
         ArrayList<Nodo> listaVeicolo1 = new ArrayList<>();
         ArrayList<Nodo> listaVeicolo2 = new ArrayList<>();
         Nodo n = insiemeNodi.get(insiemeNodi.size()-1);
@@ -80,12 +80,14 @@ public class Cartina {
             listaVeicolo1.add(n);
             n=mappaV1.get(n).getFrom();
         }
+        //Aggiungo la città con id 0
         listaVeicolo1.add(n);
         n = insiemeNodi.get(insiemeNodi.size()-1);
         while(n.getId()!=0){
             listaVeicolo2.add(n);
             n=mappaV2.get(n).getFrom();
         }
+        //Aggiungo la città con id 0
         listaVeicolo2.add(n);
         //creo il file xml tramite la classe writerXML
         WriterXML scrittore = new WriterXML();
@@ -98,13 +100,12 @@ public class Cartina {
      * @param mappa mappa delle etichette dei nodi
      * @param i indice del nodo di partenza
      * @param n1 nodo di partenza
-     * @param j indice del nodo di arrivo
      * @param n2 nodo di arrivo
      * @param carburanteDaBaseaN2 carburante dal nodo di origine ad n2
      * @param insiemeNodi insieme di tutti i nodi
      */
-    private void assegnazioneMetodo(Map<Nodo, Etichetta> mappa, int i, Nodo n1, int j, Nodo n2, double carburanteDaBaseaN2, ArrayList<Nodo> insiemeNodi) {
-        //assegno un etichetta nel caso non ci sia
+    private void assegnazioneMetodo(Map<Nodo, Etichetta> mappa, int i, Nodo n1, Nodo n2, double carburanteDaBaseaN2, ArrayList<Nodo> insiemeNodi) {
+        //assegno un'etichetta nel caso non ci sia
         if(mappa.get(n2)==null){
             mappa.put(n2,new Etichetta(insiemeNodi.get(i), carburanteDaBaseaN2, mappa.get(n1).getNumeroCitta()+1));
             //altrimenti modifico l'etichetta in base al percorso che consuma meno carburante
@@ -112,15 +113,15 @@ public class Cartina {
             if(mappa.get(n2).getDistanza()>carburanteDaBaseaN2){
                 mappa.put(n2,new Etichetta(insiemeNodi.get(i), carburanteDaBaseaN2, mappa.get(n1).getNumeroCitta()+1));
             }
-            //altrinmenti modifico l'etichetta in base al minor numero di città passate
+            //altrimenti modifico l'etichetta in base al minor numero di città passate
         }else{
-            if(mappa.get(n1).getNumeroCitta()!=mappa.get(n2).getNumeroCitta()){
+            if(mappa.get(n1).getNumeroCitta()+1!=mappa.get(n2).getNumeroCitta()){
                 if(mappa.get(n2).getNumeroCitta()>mappa.get(n1).getNumeroCitta()+1){
                     mappa.put(n2,new Etichetta(insiemeNodi.get(i), carburanteDaBaseaN2, mappa.get(n1).getNumeroCitta()+1));
                 }
-                //altrimenti modifico l'etichetta in base all'id piu basso tra i 2 percorsi
+                //altrimenti modifico l'etichetta in base all'id *maggiore* tra le 2 citta
             }else{
-                if(i>j) mappa.put(n2,new Etichetta(insiemeNodi.get(i), carburanteDaBaseaN2, mappa.get(n1).getNumeroCitta()+1));
+                if(i>mappa.get(n2).getFrom().getId()) mappa.put(n2,new Etichetta(insiemeNodi.get(i), carburanteDaBaseaN2, mappa.get(n1).getNumeroCitta()+1));
             }
         }
     }

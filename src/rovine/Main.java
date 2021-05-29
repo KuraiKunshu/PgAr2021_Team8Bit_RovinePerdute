@@ -16,10 +16,12 @@ public class Main {
     private final static String mappaFile200 = "PgAr_Map_200.xml";
     private final static String mappaFile2000 = "PgAr_Map_2000.xml";
     private final static String mappaFile10000 = "PgAr_Map_10000.xml";
+    private final static String RICERCA_PERCORSO = "Cercando il percorso ottimale...";
+    private final static String SCELTA_MAPPA = "Scegli tra le seguenti opzioni: ";
 
     public static void main(String[] args) {
         //input dell'utente per scegliere il numero di citta
-        System.out.println("scegli tra le seguenti opzioni: ");
+        System.out.println(SCELTA_MAPPA);
         System.out.println(String.format(STRINGA_MAPPA,0,5));
         System.out.println(String.format(STRINGA_MAPPA,1,13));
         System.out.println(String.format(STRINGA_MAPPA,2,50));
@@ -42,6 +44,7 @@ public class Main {
         lettore.leggiXML(path);
         Cartina mappa=new Cartina(lettore.getMappaTerritorio());
         //generazione del percorso ottimale e scrittura del file di output (all'interno del metodo)
+        System.out.println(RICERCA_PERCORSO);
         mappa.generaPercorsoOttimale(lettore.getElencoNodi(), lettore.getMappaArchi());
     }
 

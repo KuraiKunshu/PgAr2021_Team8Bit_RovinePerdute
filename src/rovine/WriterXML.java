@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class WriterXML {
-    private static final String MSG_ERROR_WRITE = "Errore nell'inizializzazione del writer:";
+    private static final String MSG_ERROR_WRITER = "Errore nell'inizializzazione del writer:";
     private static final String OUTPUT = "routes";
     private static final String ROUTE = "route";
     private static final String TEAM = "team";
@@ -18,30 +18,32 @@ public class WriterXML {
     private static final String CITY = "city";
     private static final String ID = "id";
     private static final String NAME = "name";
-    private static final String STRINGA_FINE = "il file è stato generato con successo";
+    private static final String STRINGA_FINE = "Il file e' stato generato con successo.";
 
-    /**Costruttore del WriterXML
+    /**
+     * Costruttore del WriterXML
      */
     public WriterXML(){}
 
-    /**Metodo utilizzato per creare un file routes.xml
+    /**
+     * Metodo utilizzato per creare un file Routes.xml
      * @param listaCittaV1 ArrayList di Nodo, dal quale verranno presi i nodi per cui passa il veicolo1 durante il tragitto con i loro id e nomi per poi essere scritti sul file xml.
      * @param listaCittaV2 ArrayList di Nodo, dal quale verranno presi i nodi per cui passa il veicolo2 durante il tragitto con i loro id e nomi per poi essere scritti sul file xml.
-     * @param carburanteTotV1, consumo di carburante del primo veicolo per il tragitto percorso.
-     * @param carburanteTotV2, consumo di carburante del secondo veicolo per il tragitto percorso.
+     * @param carburanteTotV1 consumo di carburante del primo veicolo per il tragitto percorso.
+     * @param carburanteTotV2 consumo di carburante del secondo veicolo per il tragitto percorso.
      * @param filePath il file xml creato
      */
     public void ScriviXML(ArrayList<Nodo> listaCittaV1, ArrayList<Nodo> listaCittaV2, int carburanteTotV1 , int carburanteTotV2, String filePath) {
         //Questo frammento di codice serve a creare ed istanziare la variabile xmlw di tipo XMLStreamWriter, che
         //sarà  utilizzata per scrivere il file XML. Viene inoltre inizializzato il documento XML.
-        XMLOutputFactory xmlof = null;
-        XMLStreamWriter xmlw = null;
+        XMLOutputFactory xmlof;
+        XMLStreamWriter xmlw;
         try {
             xmlof = XMLOutputFactory.newInstance();
             xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filePath), "utf-8");
             xmlw.writeStartDocument("utf-8", "1.0");
         } catch (Exception e) {
-            System.out.println(MSG_ERROR_WRITE);
+            System.out.println(MSG_ERROR_WRITER);
             System.out.println(e.getMessage());
             return;
         }
@@ -53,6 +55,7 @@ public class WriterXML {
             xmlw.writeAttribute(TEAM, NAME_TEAM1);
             stampaRoute(listaCittaV1, carburanteTotV1, xmlw);
         } catch (Exception e) { // se trova un errore viene eseguita questa parte
+            System.out.println(e.getMessage());
             return;
         }
         try {
@@ -66,16 +69,16 @@ public class WriterXML {
             xmlw.close();
             System.out.println(STRINGA_FINE);
         } catch (Exception e) { // se trova un errore viene eseguita questa parte
-            return;
+            System.out.println(e.getMessage());
         }
     }
 
     /**
-     *
+     * Stampa il percorso.
      * @param listaCittaV ArrayList di Nodo, dal quale verranno presi i nodi per cui passa il veicolo X.
-     * @param carburanteTotV, consumo di carburante del veicolo X per il tragitto percorso.
-     * @param xmlw, writer che andrà a stampare la route.
-     * @throws XMLStreamException, quando scrive lancia un eccezione.
+     * @param carburanteTotV consumo di carburante del veicolo X per il tragitto percorso.
+     * @param xmlw writer che andrà a stampare la route.
+     * @throws XMLStreamException quando scrive lancia un eccezione.
      */
     private void stampaRoute(ArrayList<Nodo> listaCittaV, int carburanteTotV, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeAttribute(COST, Integer.toString(carburanteTotV));

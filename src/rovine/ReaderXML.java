@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReaderXML {
-    private static final String ERROREREADER = "Errore nell'inizializzazione del reader: ";
-    private static final String STRINGAINIZIOLETTURA = "Inzio lettura file: ";
-    private static final String STRINGAFINELETTURA = "Fine lettura file: ";
+    private static final String ERRORE_READER = "Errore nell'inizializzazione del reader: ";
+    private static final String STRINGA_INIZIO_LETTURA = "Inzio lettura file: ";
+    private static final String STRINGA_FINE_LETTURA = "Fine lettura file: ";
     private static final String CITY = "city";
     private static final String LINK = "link";
-    private static final String MAPPA_CREATA = "La mappaTerritorio è stata creata con successo";
+    private static final String MAPPA_CREATA = "La mappaTerritorio e' stata creata con successo";
 
     private Map<Arco, Double[]> mappaTerritorio;
     private Map<Integer, ArrayList<Integer>> mappaArchi;
@@ -40,7 +40,7 @@ public class ReaderXML {
         try {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(filename, new FileInputStream(filename));
-            System.out.println(STRINGAINIZIOLETTURA+filename);
+            System.out.println(STRINGA_INIZIO_LETTURA+filename);
             //Legge il File xml fino a quando ci sono eventi di parsing disponibili
             while (xmlr.hasNext()) {
                 //Se trova un evento di tipo START.ELEMENT controlla il nome del tag dell'elemento corrente
@@ -79,11 +79,11 @@ public class ReaderXML {
                 //Passa all’evento successivo
                 xmlr.next();
             }
-            System.out.println(STRINGAFINELETTURA+filename);
+            System.out.println(STRINGA_FINE_LETTURA+filename);
             creaMappaTerritorio(mappaArchi, elencoNodi);
             System.out.println(MAPPA_CREATA);
         } catch (Exception e) {
-            System.out.println(ERROREREADER);
+            System.out.println(ERRORE_READER);
             System.out.println(e.getMessage());
         }
     }
